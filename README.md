@@ -6,34 +6,52 @@ The design emphasizes high run-time performance and reliability with considerati
 
 ## Features
 
-- *Preemptive Multitasking* scheduler for real-time responsiveness.
+This microkernel, designed for microcontrollers, is a mature, well-structured microkernel featuring an API with comprehensive functionality.
 
-- Selectable *scheduling algorithm*: rate monotonic, earliest deadline first, round robin, timeslice
+### Comprehensive Task Management
 
-- *Multiple-instance* tasks.
+The interface provides excellent task control with:
+- Task creation/deletion (`t_create`, `t_delete`)
+- Task control (`t_start`, `t_suspend`, `t_resume`, `t_restart`)
+- Priority management (`t_setpri`)
+- Register access (`t_getreg`, `t_setreg`)
+- Mode control with preemption and time-slicing options
 
-- *Memory management* for protection and fault isolation.
+### Rich IPC Mechanisms
 
-- *Fault-tolerant* active fault detection and isolation.
+Multiple IPC primitives are well-represented:
+- Message Queues: Both fixed-size (`q_*`) and variable-size (`q_v*`) with broadcast, urgent, and async variants
+- Events: Synchronous event passing (`ev_send`, `ev_receive`)
+- Semaphores: Full implementation with timeout support (`sm_create`, `sm_p`, `sm_v`)
+- Asynchronous signals: ASR support (`as_catch`, `as_send`, `as_return`)
 
-- *C-language Interface* for high-level language support.
+### Memory Management
 
-- *Layered architecture*:
+Two-tier memory system appropriate for embedded systems:
+- Regions (`rn_*`): Dynamic memory allocation with segments
+- Partitions (`pt_*`): Fixed-size buffer pools for deterministic allocation
+- MMU support (`mm_*`): Virtual-to-physical mapping, protection, and access control
 
-    - Kernel
-        - Task management
-        - Resource mapping
-        - IPC
-        - device communication
-        - IRQ handling
-    - Service
-        - UART
-        - timer
-    - Abstract
-        - OS interface
-        - application
-        - driver
-        - middleware    
+### Real-Time Features
+
+Strong real-time support evident in:
+- Comprehensive timer services (`tm_*`) with absolute and relative timing
+- Priority-based queueing options
+- Timeout parameters on blocking calls
+- Time-slicing control
+
+### Multi-Node Support
+
+The interface shows distributed system capabilities:
+- Global vs. local object creation flags
+- Node specifiers in identification functions
+- Roster change notifications
+- Multi-processor configuration support
+
+### Device Management
+
+Basic but complete I/O subsystem (`de_*`) with standard operations:
+- init, open, close, read, write, control
 
 ## Set up
 
@@ -51,19 +69,6 @@ cd bin
 ./core
 ```
 
-## Develop applications with Core
-
-See the [Core Programming Guide](http://gxkernel.s3-website-us-west-1.amazonaws.com/index.html) to learn how to design, build, configure, and deploy an application built on Core.
-
 ## License
 
-The MIT License (MIT)
-
-Copyright (c) 2024 Gene Hartsell
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
+MIT License - see [LICENSE](LICENSE) file for details.
