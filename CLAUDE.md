@@ -52,6 +52,9 @@ Focus on:
 - Memory management unit interface
 - Timer implementation
 
+## Current status
+- This code was originally intended to simulate the microkernel on a Windows system. Some functions include Windows API calls, which should be replaced by Core microkernel functionality. Simulating the microkernel on a desktop operating system, such as Windows or Linux, can be a follow-on project.
+
 ## Areas Needing Improvement
 - Power management subsystem (not yet implemented)
 - Advanced debugging support
